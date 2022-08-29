@@ -1,0 +1,65 @@
+<div class="profile-page">
+  <div class="user-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1">
+          <ng-container *ngIf="currentProfile">
+            <img src="" class="user-img" />
+            <h4>{{ currentProfile.username }}</h4>
+            <p>{{ currentProfile.bio }}</p>
+            <button
+              [hidden]="isUserConnected$ | async"
+              class="btn btn-sm btn-outline-secondary action-btn"
+            >
+              <i *ngIf="!currentProfile.following" class="ion-plus-round"></i>
+              <i *ngIf="currentProfile.following" class="ion-minus-round"></i>
+              &nbsp;
+              {{ currentProfile.following ? "Unfollow" : "Follow" }}
+              {{ currentProfile.username }}
+            </button>
+            <a
+              [routerLink]="['/settings']"
+              [hidden]="!(isUserConnected$ | async)"
+              class="btn btn-sm btn-outline-secondary action-btn"
+            >
+              <i class="ion-gear-a"></i> Edit Profile Settings
+            </a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="articles-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: mode === 'mine' }"
+                (click)="updateArticles('mine')"
+                >My Articles</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: mode === 'fav' }"
+                (click)="updateArticles('fav')"
+                >Favorited Articles</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <p *ngIf="allArticles.length === 0">No articles are here... yet.</p>
+        <ng-container *ngIf="allArticles.length > 0">
+          <div *ngFor="let article of allArticles" class="article-preview">
+            <app-article-share [article]="article"></app-article-share>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

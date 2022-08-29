@@ -1,0 +1,38 @@
+<div>
+    <div class="article-meta">
+        <a *ngIf="article" [routerLink]="['/profile', article.author.username]"
+          ><img [src]="article.author.image"
+        /></a>
+        <div class="info">
+          <a *ngIf="article"
+            [routerLink]="['/profile', article.author.username]"
+            class="author"
+            >{{ article.author.username }}</a
+          >
+          <span class="date">{{ article?.updatedAt | date }}</span>
+        </div>
+        <button *ngIf="article"
+          class="btn btn-outline-primary btn-sm pull-xs-right"
+          [ngClass]="{
+            'btn-outline-primary': !article.favorited,
+            'btn-primary': article.favorited
+          }"
+          (click)="toggleFavorite(article)"
+        >
+          <i class="ion-heart"></i> {{ article.favoritesCount }}
+        </button>
+      </div>
+      <a *ngIf="article" [routerLink]="['/article', article.slug]" class="preview-link">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.description }}</p>
+        <span>Read more...</span>
+        <ul class="tag-list">
+          <li
+            class="tag-default tag-pill tag-outline"
+            *ngFor="let tag of article.tagList"
+          >
+            {{ tag }}
+          </li>
+        </ul>
+      </a>
+</div>
